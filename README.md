@@ -23,7 +23,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: To be written
+```ruby
+Versioner.configure do |config|
+  # Current version of the application
+  config.current_version = '1.2.3'
+
+  # The name of the header to look for the version number
+  # Default: 'X-API-SERVER-VERSION'
+  config.header_name = 'X-API-SERVER-VERSION'
+end
+```
 
 ## Development
 

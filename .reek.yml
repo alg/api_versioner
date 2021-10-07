@@ -1,0 +1,17 @@
+---
+detectors:
+  Attribute:
+    enabled: false
+
+  ControlParameter:
+    enabled: false
+
+  IrresponsibleModule:
+    enabled: false
+
+  UtilityFunction:
+    enabled: false
+
+  UncommunicativeVariableName:
+    accept:
+      - e

@@ -2,7 +2,19 @@
 
 require 'versioner/version'
 
-# Versioner is the component that adds support for semantic versions to the Rails application.
 module Versioner
-  # Your code goes here...
+  autoload :Configuration, 'versioner/configuration'
+
+  class << self
+    def configure
+      yield(config)
+    end
+
+    def config
+      @config ||= Configuration.new
+    end
+  end
 end
+
+# :nocov:
+require "versioner/railtie" if defined?(Rails::Railtie)
