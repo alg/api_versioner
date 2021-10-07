@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     versioner (0.1.0)
-      rake (~> 12.0)
 
 GEM
   remote: https://rubygems.org/
@@ -26,7 +25,6 @@ GEM
       ast (~> 2.4.1)
     rack (2.2.3)
     rainbow (3.0.0)
-    rake (12.3.3)
     reek (6.0.6)
       kwalify (~> 0.7.0)
       parser (~> 3.0.0)
