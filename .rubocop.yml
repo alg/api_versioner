@@ -1,0 +1,94 @@
+# https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  CacheRootDirectory: tmp
+  Exclude:
+    - bin/*
+    - vendor/**/*
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Metrics/AbcSize:
+  Exclude:
+    - db/migrate/*
+    - config/initializers/auto_inject/*
+
+Metrics/BlockLength:
+  Exclude:
+    - config/environments/*
+    - config/initializers/auto_inject/*
+    - config/routes.rb
+    - config/routes/*
+    - db/**/*
+    - lib/tasks/**/*
+    - spec/**/*
+
+Metrics/ClassLength:
+  Exclude:
+    - db/migrate/*
+
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*
+    - config/initializers/auto_inject/*
+
+Rails:
+  Enabled: true
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Rails/SquishedSQLHeredocs:
+  Enabled: false
+
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - production
+    - staging
+    - test
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/requests/**/*
+
+RSpec/EmptyExampleGroup:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Exclude:
+    - spec/**/*
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/ScatteredSetup:
+  Exclude:
+    - spec/integration/**/*
+
+RSpec/VariableName:
+  IgnoredPatterns:
+    - Authorization
+
+Style/Documentation:
+  Enabled: false
+
+Style/LambdaCall:
+  EnforcedStyle: braces
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - lib/**/*
+  EnforcedStyle: compact
+
+Style/SafeNavigation:
+  Enabled: false
