@@ -17,4 +17,4 @@ module Versioner
 end
 
 # :nocov:
-require "versioner/railtie" if defined?(Rails::Railtie)
+require 'versioner/railtie' if defined?(Rails::Railtie)

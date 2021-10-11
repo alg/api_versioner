@@ -37,22 +37,6 @@ Metrics/MethodLength:
     - db/migrate/*
     - config/initializers/auto_inject/*
 
-Rails:
-  Enabled: true
-
-Rails/SkipsModelValidations:
-  Enabled: false
-
-Rails/SquishedSQLHeredocs:
-  Enabled: false
-
-Rails/UnknownEnv:
-  Environments:
-    - development
-    - production
-    - staging
-    - test
-
 RSpec/DescribeClass:
   Exclude:
     - spec/requests/**/*

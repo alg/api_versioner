@@ -1,9 +1,8 @@
 # Versioner
 
-Versioner is a tiny focused gem that provides support for semantic versioning to Rails apps.
-What it does:
-- Places the current version in the header of every response
-- Analyzes the version in the headers of incoming responses and takes action according to the simple rules.
+Versioner is a tiny focused gem that provides support for semantic versioning to Rails apps. It installs two middlewares:
+- `Versioner::ServerVersionMiddleware` places the current version in the response header (defaults to `X-API-SERVER-VERSION`). The header name and the current version is configurable.
+- `Versioner::ClientVersionMiddleware` analyzes the version in the said request header (defaults to `X-API-CLIENT-VERSION`) and checks it against the current server version using a specified policy.
 
 ## Installation
 
@@ -24,14 +23,77 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
+# config/initializers/versioner.rb
+
 Versioner.configure do |config|
   # Current version of the application
   config.current_version = '1.2.3'
 
-  # The name of the header to look for the version number
+  # The name of the header to set the server version number
   # Default: 'X-API-SERVER-VERSION'
-  config.header_name = 'X-API-SERVER-VERSION'
+  config.server_version_header = 'X-API-SERVER-VERSION'
+
+  # The header to look for the client version number
+  # Default: 'X-API-CLIENT-VERSION'
+  config.client_version_header = 'X-API-CLIENT-VERSION'
+
+  # A callable object to check version policy. It's called with current server version
+  # and the client version from the request header (`client_version_header`). If two
+  # versions are incompatible, the `Versioner::IncompatibleVersion` error should be raised.
+  config.version_policy = Versioner::DefaultPolicy.new
+
+  # A callable object to handle the `Versioner::IncompatibleVersion` error in a way
+  # specific to your application. It's called with the error and the configuration.
+  # The default implementation renders JSON like below and returns it with error code 400.
+  config.incompatible_version_handler = Versioner::DefaultHandler.new
 end
+```
+
+## Policy
+
+A policy is a callable object with two arguments, like below:
+
+```ruby
+class CustomPolicy
+  def call(server_version, client_version)
+    raise Versioner::IncompatibleVersion, "This version is ..." if some_condition?
+  end
+end
+```
+
+A policy should raise the `Versioner::IncompatibleVersion` error if the requested client version is incompatible with the current server version.
+
+The default implementation (`Versioner::DefaultPolicy`):
+- ignores unspecified versions
+- raises an error if the major numbers differ
+- raises an error if the client version is greater than the current server version
+
+## Handler
+
+The handler is a callable object that generates the response when an incompatible version is detected.
+
+```ruby
+class CustomHandler
+  def call(error, config)
+    [200, {}, ['Version error']]
+  end
+end
+```
+
+The default implementation (`Versioner::DefaultHandler`):
+- Returns status 400 (Bad Request)
+- Renders JSON content as follows:
+
+```json
+{
+  "errors": [
+    {
+      "title": "Error message ...",
+      "status": 400,
+      "code": "UNSUPPORTED_VERSION"
+    }
+  ]
+}
 ```
 
 ## Development

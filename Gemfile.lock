@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     versioner (0.1.0)
+      semantic (~> 1.6.1)
 
 GEM
   remote: https://rubygems.org/
@@ -65,6 +66,7 @@ GEM
     rubocop-rspec (2.5.0)
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
+    semantic (1.6.1)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)

@@ -6,23 +6,26 @@ RSpec.describe Versioner do
   end
 
   describe 'configuration' do
-    subject(:config) { Versioner.config }
+    subject(:config) { described_class.config }
 
     context 'when default' do
       it { expect(config.current_version).to be_nil }
-      it { expect(config.header_name).to eq 'X-API-SERVER-VERSION' }
+      it { expect(config.server_version_header).to eq 'X-API-SERVER-VERSION' }
+      it { expect(config.client_version_header).to eq 'X-API-CLIENT-VERSION' }
     end
 
     context 'when overriden' do
       before do
-        Versioner.configure do |c|
+        described_class.configure do |c|
           c.current_version = '1.2.3'
-          c.header_name = 'X-VER'
+          c.server_version_header = 'X-SVER'
+          c.client_version_header = 'X-CVER'
         end
       end
 
       it { expect(config.current_version).to eq '1.2.3' }
-      it { expect(config.header_name).to eq 'X-VER' }
+      it { expect(config.server_version_header).to eq 'X-SVER' }
+      it { expect(config.client_version_header).to eq 'X-CVER' }
     end
   end
 end
