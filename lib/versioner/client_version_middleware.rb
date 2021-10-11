@@ -40,7 +40,7 @@ module Versioner
     end
 
     def convert_to_rack_header(header)
-      "HTTP_#{header.strip.gsub('-', '_').upcase}"
+      "HTTP_#{header.strip.tr('-', '_').upcase}"
     end
   end
 end

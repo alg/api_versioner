@@ -1,8 +1,8 @@
 # Versioner
 
 Versioner is a tiny focused gem that provides support for semantic versioning to Rails apps. It installs two middlewares:
-- `Versioner::ServerVersionMiddleware` places the current version in the response header (defaults to `X-API-SERVER-VERSION`). The header name and the current version is configurable.
-- `Versioner::ClientVersionMiddleware` analyzes the version in the said request header (defaults to `X-API-CLIENT-VERSION`) and checks it against the current server version using a specified policy.
+- `Versioner::ServerVersionMiddleware` places the current version in the response header (defaults to `X-API-Server-Version`). The header name and the current version is configurable.
+- `Versioner::ClientVersionMiddleware` analyzes the version in the said request header (defaults to `X-API-Client-Version`) and checks it against the current server version using a specified policy.
 
 ## Installation
 
@@ -30,12 +30,12 @@ Versioner.configure do |config|
   config.current_version = '1.2.3'
 
   # The name of the header to set the server version number
-  # Default: 'X-API-SERVER-VERSION'
-  config.server_version_header = 'X-API-SERVER-VERSION'
+  # Default: 'X-API-Server-Version'
+  config.server_version_header = 'X-API-Server-Version'
 
   # The header to look for the client version number
-  # Default: 'X-API-CLIENT-VERSION'
-  config.client_version_header = 'X-API-CLIENT-VERSION'
+  # Default: 'X-API-Client-Version'
+  config.client_version_header = 'X-API-Client-Version'
 
   # A callable object to check version policy. It's called with current server version
   # and the client version from the request header (`client_version_header`). If two

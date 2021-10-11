@@ -10,8 +10,8 @@ RSpec.describe Versioner do
 
     context 'when default' do
       it { expect(config.current_version).to be_nil }
-      it { expect(config.server_version_header).to eq 'X-API-SERVER-VERSION' }
-      it { expect(config.client_version_header).to eq 'X-API-CLIENT-VERSION' }
+      it { expect(config.server_version_header).to eq 'X-API-Server-Version' }
+      it { expect(config.client_version_header).to eq 'X-API-Client-Version' }
     end
 
     context 'when overriden' do

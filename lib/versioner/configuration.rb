@@ -7,8 +7,8 @@ require_relative 'default_handler'
 module Versioner
   # :reek:TooManyInstanceVariables
   class Configuration
-    DEFAULT_SERVER_VERSION_HEADER = 'X-API-SERVER-VERSION'
-    DEFAULT_CLIENT_VERSION_HEADER = 'X-API-CLIENT-VERSION'
+    DEFAULT_SERVER_VERSION_HEADER = 'X-API-Server-Version'
+    DEFAULT_CLIENT_VERSION_HEADER = 'X-API-Client-Version'
     DEFAULT_VERSION_POLICY = Versioner::DefaultPolicy.new
     DEFAULT_INCOMPATIBLE_VERSION_HANDLER = Versioner::DefaultHandler.new
 
