@@ -66,13 +66,13 @@ RSpec.describe Versioner::Configuration do
     end
   end
 
-  describe '.incompatible_version_handler' do
-    subject(:handler) { config.incompatible_version_handler }
+  describe '.unsupported_version_handler' do
+    subject(:handler) { config.unsupported_version_handler }
 
     it { is_expected.to be_a Versioner::DefaultHandler }
 
     it 'sets the handler' do
-      config.incompatible_version_handler = :handler
+      config.unsupported_version_handler = :handler
 
       expect(handler).to eq :handler
     end

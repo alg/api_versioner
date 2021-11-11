@@ -10,9 +10,9 @@ module Versioner
     DEFAULT_SERVER_VERSION_HEADER = 'X-API-Server-Version'
     DEFAULT_CLIENT_VERSION_HEADER = 'X-API-Client-Version'
     DEFAULT_VERSION_POLICY = Versioner::DefaultPolicy.new
-    DEFAULT_INCOMPATIBLE_VERSION_HANDLER = Versioner::DefaultHandler.new
+    DEFAULT_UNSUPPORTED_VERSION_HANDLER = Versioner::DefaultHandler.new
 
-    attr_accessor :version_policy, :incompatible_version_handler
+    attr_accessor :version_policy, :unsupported_version_handler
     attr_reader :current_version, :server_version_header, :client_version_header
 
     def initialize
@@ -20,7 +20,7 @@ module Versioner
       @server_version_header = DEFAULT_SERVER_VERSION_HEADER
       @client_version_header = DEFAULT_CLIENT_VERSION_HEADER
       @version_policy = DEFAULT_VERSION_POLICY
-      @incompatible_version_handler = DEFAULT_INCOMPATIBLE_VERSION_HANDLER
+      @unsupported_version_handler = DEFAULT_UNSUPPORTED_VERSION_HANDLER
     end
 
     def current_version=(version)

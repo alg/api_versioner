@@ -3,7 +3,7 @@
 require 'rack'
 require 'versioner/client_version_middleware'
 require 'versioner/default_handler'
-require 'versioner/incompatible_version'
+require 'versioner/unsupported_version'
 
 RSpec.describe Versioner::ClientVersionMiddleware do
   subject(:middleware) { described_class.new(app, config) }
@@ -27,7 +27,7 @@ RSpec.describe Versioner::ClientVersionMiddleware do
     config.client_version_header = client_version_header
     config.current_version = current_version.to_s
     config.version_policy = policy
-    config.incompatible_version_handler = handler
+    config.unsupported_version_handler = handler
   end
 
   context 'when not checking versions' do
@@ -83,8 +83,8 @@ RSpec.describe Versioner::ClientVersionMiddleware do
       end
     end
 
-    context 'when version is incompatible' do
-      let(:error) { Versioner::IncompatibleVersion.new }
+    context 'when version is unsupported' do
+      let(:error) { Versioner::UnsupportedVersion.new }
 
       before { allow(policy).to receive(:call).and_raise(error) }
 

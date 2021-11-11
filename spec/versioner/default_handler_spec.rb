@@ -2,31 +2,47 @@
 
 require 'json'
 require 'versioner/default_handler'
-require 'versioner/incompatible_version'
+require 'versioner/unsupported_version'
 
 RSpec.describe Versioner::DefaultHandler do
-  subject(:handler) { described_class.new }
+  let(:handler) { described_class.new }
+  let(:result) { handler.(error, config) }
+  let(:status) { result[0] }
+  let(:response) { result[2] }
+  let(:json) { JSON.parse(response[0]) }
 
   let(:config) { Versioner::Configuration.new }
-  let(:error) { Versioner::IncompatibleVersion.new('message') }
+  let(:error) { Versioner::UnsupportedVersion.new('message') }
+  let(:reason) { nil }
 
-  it 'sets the correct status' do
-    status, _headers, _response = handler.(error, config)
+  describe 'HTTP status code' do
+    subject(:status) { result[0] }
 
-    expect(status).to eq 400
+    it { is_expected.to eq 400 }
   end
 
-  it 'returns the JSON with an error' do
-    _status, _headers, response = handler.(error, config)
+  describe 'error details' do
+    it 'expects the error details' do
+      expect(json['errors'].count).to eq 1
 
-    expect(JSON.parse(response[0])).to eq(
-      'errors' => [
-        {
-          'title' => 'message',
-          'status' => 400,
-          'code' => 'UNSUPPORTED_VERSION'
-        }
-      ]
-    )
+      error = json['errors'][0]
+      expect(error['title']).to eq 'message'
+      expect(error['status']).to eq 400
+      expect(error['code']).to eq 'UNSUPPORTED_VERSION'
+    end
+  end
+
+  describe 'error meta' do
+    subject(:meta) { json.dig('errors', 0, 'meta') }
+
+    context 'when reason given' do
+      let(:error) { Versioner::UnsupportedVersion.new('message', reason: 'TOO_LOW') }
+
+      it { is_expected.to eq('reason' => 'TOO_LOW') }
+    end
+
+    context 'when reason is not given' do
+      it { is_expected.to be_nil }
+    end
   end
 end

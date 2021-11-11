@@ -1,12 +1,26 @@
 # frozen_string_literal: true
 
+require 'versioner/unsupported_version'
+
 module Versioner
   class DefaultPolicy
-    def call(server_version, client_version)
-      return on_version_unspecified unless client_version
+    class VersionTooLow < UnsupportedVersion
+      def initialize(msg)
+        super(msg, reason: 'TOO_LOW')
+      end
+    end
 
-      on_major_diff(server_version, client_version) if server_version.major != client_version.major
-      on_greater(server_version, client_version) if client_version > server_version
+    class VersionTooHigh < UnsupportedVersion
+      def initialize(msg)
+        super(msg, reason: 'TOO_HIGH')
+      end
+    end
+
+    def call(current_version, requested_version)
+      return on_version_unspecified unless requested_version
+
+      on_lower(current_version, requested_version) if requested_version.major < current_version.major
+      on_higher(current_version, requested_version) if requested_version > current_version
 
       true
     end
@@ -17,13 +31,14 @@ module Versioner
       # Ignore
     end
 
-    def on_major_diff(server_version, client_version)
-      raise IncompatibleVersion, "The major version number differs between #{server_version} and #{client_version}"
+    def on_lower(current_version, requested_version)
+      raise VersionTooLow,
+        "Requested version (#{requested_version}) is significantly lower than current version (#{current_version})"
     end
 
-    def on_greater(server_version, client_version)
-      raise IncompatibleVersion,
-        "The client version (#{client_version}) is greater than server version (#{server_version})"
+    def on_higher(current_version, requested_version)
+      raise VersionTooHigh,
+        "Requested version (#{requested_version}) is higher than current version (#{current_version})"
     end
   end
 end

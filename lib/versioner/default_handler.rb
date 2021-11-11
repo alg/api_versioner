@@ -4,18 +4,25 @@ require 'json'
 
 module Versioner
   class DefaultHandler
-    def call(error, _config)
-      response = {
-        errors: [
-          {
-            title: error.message,
-            status: 400,
-            code: 'UNSUPPORTED_VERSION'
-          }
-        ]
-      }
+    BLANK_RE = /\A[[:space:]]*\z/.freeze
 
-      [400, {}, [JSON.generate(response)]]
+    def call(error, _config)
+      [400, {}, [JSON.generate(errors: [formatted_error(error)])]]
+    end
+
+    private
+
+    def formatted_error(error)
+      {
+        title: error.message,
+        status: 400,
+        code: 'UNSUPPORTED_VERSION'
+      }.tap do |json|
+        reason = error.reason
+        next if !reason || BLANK_RE.match?(reason)
+
+        json[:meta] = { reason: reason }
+      end
     end
   end
 end

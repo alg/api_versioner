@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'semantic'
-require 'versioner/incompatible_version'
+require 'versioner/unsupported_version'
 
 module Versioner
   class ClientVersionMiddleware
@@ -13,8 +13,8 @@ module Versioner
     def call(env)
       check_version(env)
       @app.(env)
-    rescue Versioner::IncompatibleVersion => e
-      @config.incompatible_version_handler.(e, @config)
+    rescue Versioner::UnsupportedVersion => e
+      @config.unsupported_version_handler.(e, @config)
     end
 
     def check_version(env)
@@ -27,7 +27,7 @@ module Versioner
       @config.client_version_header &&
         @config.current_version &&
         @config.version_policy &&
-        @config.incompatible_version_handler
+        @config.unsupported_version_handler
     end
 
     def client_version(env)
