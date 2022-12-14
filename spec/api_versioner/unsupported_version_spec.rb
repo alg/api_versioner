@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'versioner/unsupported_version'
+require 'api_versioner/unsupported_version'
 
-RSpec.describe Versioner::UnsupportedVersion do
+RSpec.describe ApiVersioner::UnsupportedVersion do
   it 'initializes without message' do
     error = described_class.new
 

@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 require 'rack'
-require 'versioner/client_version_middleware'
-require 'versioner/default_handler'
-require 'versioner/unsupported_version'
+require 'api_versioner/client_version_middleware'
+require 'api_versioner/default_handler'
+require 'api_versioner/unsupported_version'
 
-RSpec.describe Versioner::ClientVersionMiddleware do
+RSpec.describe ApiVersioner::ClientVersionMiddleware do
   subject(:middleware) { described_class.new(app, config) }
 
   let(:app) { double('app', call: app_result) } # rubocop:disable RSpec/VerifiedDoubles
-  let(:config) { Versioner::Configuration.new }
+  let(:config) { ApiVersioner::Configuration.new }
   let(:env) { {} }
 
   let(:app_result) { [status, headers, response] }
@@ -20,8 +20,8 @@ RSpec.describe Versioner::ClientVersionMiddleware do
   let(:client_version_header) { 'X-VER' }
   let(:http_client_version_header) { 'HTTP_X_VER' }
   let(:current_version) { Semantic::Version.new('1.2.3') }
-  let(:policy) { instance_double(Versioner::DefaultPolicy, call: nil) }
-  let(:handler) { instance_double(Versioner::DefaultHandler, call: :handler_response) }
+  let(:policy) { instance_double(ApiVersioner::DefaultPolicy, call: nil) }
+  let(:handler) { instance_double(ApiVersioner::DefaultHandler, call: :handler_response) }
 
   before do
     config.client_version_header = client_version_header
@@ -84,7 +84,7 @@ RSpec.describe Versioner::ClientVersionMiddleware do
     end
 
     context 'when version is unsupported' do
-      let(:error) { Versioner::UnsupportedVersion.new }
+      let(:error) { ApiVersioner::UnsupportedVersion.new }
 
       before { allow(policy).to receive(:call).and_raise(error) }
 

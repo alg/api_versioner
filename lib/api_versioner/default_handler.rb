@@ -2,7 +2,7 @@
 
 require 'json'
 
-module Versioner
+module ApiVersioner
   class DefaultHandler
     BLANK_RE = /\A[[:space:]]*\z/.freeze
 

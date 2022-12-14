@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'versioner/version'
+require 'api_versioner/version'
 
-module Versioner
-  autoload :Configuration, 'versioner/configuration'
+module ApiVersioner
+  autoload :Configuration, 'api_versioner/configuration'
 
   class << self
     def configure
@@ -17,4 +17,4 @@ module Versioner
 end
 
 # :nocov:
-require 'versioner/railtie' if defined?(Rails::Railtie)
+require 'api_versioner/railtie' if defined?(Rails::Railtie)

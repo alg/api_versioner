@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'versioner/configuration'
+require 'api_versioner/configuration'
 
-RSpec.describe Versioner::Configuration do
+RSpec.describe ApiVersioner::Configuration do
   subject(:config) { described_class.new }
 
   describe '.current_version' do
@@ -57,7 +57,7 @@ RSpec.describe Versioner::Configuration do
   describe '.version_policy' do
     subject(:policy) { config.version_policy }
 
-    it { is_expected.to be_a Versioner::DefaultPolicy }
+    it { is_expected.to be_a ApiVersioner::DefaultPolicy }
 
     it 'sets the policy' do
       config.version_policy = :policy
@@ -69,7 +69,7 @@ RSpec.describe Versioner::Configuration do
   describe '.unsupported_version_handler' do
     subject(:handler) { config.unsupported_version_handler }
 
-    it { is_expected.to be_a Versioner::DefaultHandler }
+    it { is_expected.to be_a ApiVersioner::DefaultHandler }
 
     it 'sets the handler' do
       config.unsupported_version_handler = :handler

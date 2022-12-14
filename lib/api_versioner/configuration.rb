@@ -4,13 +4,13 @@ require 'semantic'
 require_relative 'default_policy'
 require_relative 'default_handler'
 
-module Versioner
+module ApiVersioner
   # :reek:TooManyInstanceVariables
   class Configuration
     DEFAULT_SERVER_VERSION_HEADER = 'X-API-Server-Version'
     DEFAULT_CLIENT_VERSION_HEADER = 'X-API-Client-Version'
-    DEFAULT_VERSION_POLICY = Versioner::DefaultPolicy.new
-    DEFAULT_UNSUPPORTED_VERSION_HANDLER = Versioner::DefaultHandler.new
+    DEFAULT_VERSION_POLICY = DefaultPolicy.new
+    DEFAULT_UNSUPPORTED_VERSION_HANDLER = DefaultHandler.new
 
     attr_accessor :version_policy, :unsupported_version_handler
     attr_reader :current_version, :server_version_header, :client_version_header

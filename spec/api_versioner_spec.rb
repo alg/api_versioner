@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Versioner do
+RSpec.describe ApiVersioner do
   it 'has a version number' do
-    expect(Versioner::VERSION).not_to be nil
+    expect(ApiVersioner::VERSION).not_to be nil
   end
 
   describe 'configuration' do

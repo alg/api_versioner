@@ -1,6 +1,6 @@
-# Versioner
+# API Versioner
 
-Versioner is a tiny focused gem that provides support for semantic versioning to Rails apps. The idea is as follows:
+API Versioner is a tiny focused gem that provides support for semantic versioning to API apps. The idea is as follows:
 
 - Backend has its current API version that it exposes in the `X-API-Server-Version` response header by default
 - Client requests a certain API version by sending it in the `X-API-Client-Version` request header by default
@@ -11,15 +11,15 @@ All moving parts (headers names, the policy and the handler) are configurable.
 ## Middlewares
 
 During initialization if the gem sees it's used in a Rails app, it installs two middlewares:
-- `Versioner::ServerVersionMiddleware` places the current version in the response header (defaults to `X-API-Server-Version`). The header name and the current version is configurable.
-- `Versioner::ClientVersionMiddleware` analyzes the version in the said request header (defaults to `X-API-Client-Version`) and checks it against the current server version using a specified policy.
+- `ApiVersioner::ServerVersionMiddleware` places the current version in the response header (defaults to `X-API-Server-Version`). The header name and the current version is configurable.
+- `ApiVersioner::ClientVersionMiddleware` analyzes the version in the said request header (defaults to `X-API-Client-Version`) and checks it against the current server version using a specified policy.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'versioner'
+gem 'api_versioner'
 ```
 
 And then execute:
@@ -49,13 +49,13 @@ Versioner.configure do |config|
 
   # A callable object to check version policy. It's called with current server version
   # and the requested version from the request header (`client_version_header`).
-  # If the requested version is unsupported, the `Versioner::UnsupportedVersion` error should be raised.
-  config.version_policy = Versioner::DefaultPolicy.new
+  # If the requested version is unsupported, the `ApiVersioner::UnsupportedVersion` error should be raised.
+  config.version_policy = ApiVersioner::DefaultPolicy.new
 
-  # A callable object to handle the `Versioner::UnsupportedVersion` error in a way
+  # A callable object to handle the `ApiVersioner::UnsupportedVersion` error in a way
   # specific to your application. It's called with the error and the configuration.
   # The default implementation renders JSON like below and returns it with error code 400.
-  config.unsupported_version_handler = Versioner::DefaultHandler.new
+  config.unsupported_version_handler = ApiVersioner::DefaultHandler.new
 end
 ```
 
@@ -66,14 +66,14 @@ A policy is a callable object with two arguments, like below:
 ```ruby
 class CustomPolicy
   def call(current_version, requested_version)
-    raise Versioner::UnsupportedVersion, "This version is ..." if some_condition?
+    raise ApiVersioner::UnsupportedVersion, "This version is ..." if some_condition?
   end
 end
 ```
 
-A policy should raise the `Versioner::UnsupportedVersion` error if the requested version is unsupported.
+A policy should raise the `ApiVersioner::UnsupportedVersion` error if the requested version is unsupported.
 
-The default implementation (`Versioner::DefaultPolicy`) passes for:
+The default implementation (`ApiVersioner::DefaultPolicy`) passes for:
 - unspecified versions
 - equal versions
 - requested versions that are lower than current on minor and/or patch levels
@@ -84,7 +84,7 @@ Raises errors for:
 
 ## UnsupportedVersion error
 
-`Versioner::UnsupportedVersion` error has `reason` field that is not initialized by default. You can initialize it with your own value as necessary. This value is returned in the error meta-section by the `Versioner::DefaultHandler` as shown in the next section.
+`ApiVersioner::UnsupportedVersion` error has `reason` field that is not initialized by default. You can initialize it with your own value as necessary. This value is returned in the error meta-section by the `ApiVersioner::DefaultHandler` as shown in the next section.
 
 ## Handler
 
@@ -98,7 +98,7 @@ class CustomHandler
 end
 ```
 
-The default implementation (`Versioner::DefaultHandler`):
+The default implementation (`ApiVersioner::DefaultHandler`):
 - Returns status 400 (Bad Request)
 - Renders JSON content as follows:
 

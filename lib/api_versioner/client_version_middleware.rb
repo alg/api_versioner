@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'semantic'
-require 'versioner/unsupported_version'
+require 'api_versioner/unsupported_version'
 
-module Versioner
+module ApiVersioner
   class ClientVersionMiddleware
     def initialize(app, config = nil)
       @app = app
@@ -13,7 +13,7 @@ module Versioner
     def call(env)
       check_version(env)
       @app.(env)
-    rescue Versioner::UnsupportedVersion => e
+    rescue ApiVersioner::UnsupportedVersion => e
       @config.unsupported_version_handler.(e, @config)
     end
 

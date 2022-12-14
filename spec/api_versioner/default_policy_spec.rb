@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require 'semantic'
-require 'versioner/default_policy'
+require 'api_versioner/default_policy'
 
-RSpec.describe Versioner::DefaultPolicy do
+RSpec.describe ApiVersioner::DefaultPolicy do
   subject(:check) { described_class.new.(current_version, requested_version) }
 
   let(:current_version) { version('2.3.4') }
@@ -27,7 +27,7 @@ RSpec.describe Versioner::DefaultPolicy do
   context 'when requested version is lower on major level' do
     let(:requested_version) { version('1.3.4') }
 
-    it { expect { check }.to raise_error Versioner::DefaultPolicy::VersionTooLow }
+    it { expect { check }.to raise_error ApiVersioner::DefaultPolicy::VersionTooLow }
   end
 
   context 'when requested version differs on minor level' do
@@ -45,6 +45,6 @@ RSpec.describe Versioner::DefaultPolicy do
   context 'when requested version is greater' do
     let(:requested_version) { version('2.3.5') }
 
-    it { expect { check }.to raise_error Versioner::DefaultPolicy::VersionTooHigh }
+    it { expect { check }.to raise_error ApiVersioner::DefaultPolicy::VersionTooHigh }
   end
 end

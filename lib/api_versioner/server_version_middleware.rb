@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-module Versioner
+module ApiVersioner
   class ServerVersionMiddleware
     def initialize(app, config = nil)
       @app = app
-      @config = config || Versioner.config
+      @config = config || ApiVersioner.config
     end
 
     def call(env)

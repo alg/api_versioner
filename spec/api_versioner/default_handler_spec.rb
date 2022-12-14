@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'versioner/default_handler'
-require 'versioner/unsupported_version'
+require 'api_versioner/default_handler'
+require 'api_versioner/unsupported_version'
 
-RSpec.describe Versioner::DefaultHandler do
+RSpec.describe ApiVersioner::DefaultHandler do
   let(:handler) { described_class.new }
   let(:result) { handler.(error, config) }
   let(:status) { result[0] }
   let(:response) { result[2] }
   let(:json) { JSON.parse(response[0]) }
 
-  let(:config) { Versioner::Configuration.new }
-  let(:error) { Versioner::UnsupportedVersion.new('message') }
+  let(:config) { ApiVersioner::Configuration.new }
+  let(:error) { ApiVersioner::UnsupportedVersion.new('message') }
   let(:reason) { nil }
 
   describe 'HTTP status code' do
@@ -36,7 +36,7 @@ RSpec.describe Versioner::DefaultHandler do
     subject(:meta) { json.dig('errors', 0, 'meta') }
 
     context 'when reason given' do
-      let(:error) { Versioner::UnsupportedVersion.new('message', reason: 'TOO_LOW') }
+      let(:error) { ApiVersioner::UnsupportedVersion.new('message', reason: 'TOO_LOW') }
 
       it { is_expected.to eq('reason' => 'TOO_LOW') }
     end

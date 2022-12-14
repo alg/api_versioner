@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 require 'rack'
-require 'versioner/server_version_middleware'
+require 'api_versioner/server_version_middleware'
 
-RSpec.describe Versioner::ServerVersionMiddleware do
+RSpec.describe ApiVersioner::ServerVersionMiddleware do
   subject(:middleware) { described_class.new(app, config) }
 
   let(:app) { double('app', call: app_result) } # rubocop:disable RSpec/VerifiedDoubles
-  let(:config) { Versioner::Configuration.new }
+  let(:config) { ApiVersioner::Configuration.new }
   let(:env) { {} }
 
   let(:app_result) { [status, headers, response] }

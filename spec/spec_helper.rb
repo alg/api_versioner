@@ -2,7 +2,7 @@
 
 require 'support/simplecov'
 require 'bundler/setup'
-require 'versioner'
+require 'api_versioner'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

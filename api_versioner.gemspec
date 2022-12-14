@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
-require_relative 'lib/versioner/version'
+require_relative 'lib/api_versioner/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'versioner'
-  spec.version       = Versioner::VERSION
+  spec.name          = 'api_versioner'
+  spec.version       = ApiVersioner::VERSION
   spec.authors       = ['Aleksey Gureiev']
   spec.email         = %w[agureiev@shakuro.com]
 
   spec.summary       = 'A simple gem to add semantic versioning support to API applications.'
-  spec.homepage      = 'https://github.com/alg/versioner'
+  spec.homepage      = 'https://github.com/alg/api_versioner'
   spec.license       = 'MIT'
   spec.required_ruby_version = Gem::Requirement.new('>= 2.5.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/alg/versioner'
-  spec.metadata['changelog_uri'] = 'https://github.com/alg/versioner/CHANGELOG'
+  spec.metadata['source_code_uri'] = 'https://github.com/alg/api_versioner'
+  spec.metadata['changelog_uri'] = 'https://github.com/alg/api_versioner/CHANGELOG'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

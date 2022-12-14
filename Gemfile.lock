@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    versioner (1.0.0)
+    api_versioner (1.0.0)
       semantic (~> 1.6.1)
 
 GEM
@@ -82,6 +82,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  api_versioner!
   reek (~> 6.0)
   rspec (~> 3.10.0)
   rubocop (~> 1.4)
@@ -89,7 +90,6 @@ DEPENDENCIES
   rubocop-rails (~> 2.2)
   rubocop-rspec (~> 2.0)
   simplecov (~> 0.21.2)
-  versioner!
 
 BUNDLED WITH
    2.1.4
