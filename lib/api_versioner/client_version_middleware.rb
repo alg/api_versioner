@@ -7,7 +7,7 @@ module ApiVersioner
   class ClientVersionMiddleware
     def initialize(app, config = nil)
       @app = app
-      @config = config || Versioner.config
+      @config = config || ApiVersioner.config
     end
 
     def call(env)

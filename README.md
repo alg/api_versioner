@@ -35,7 +35,7 @@ Or install it yourself as:
 ```ruby
 # config/initializers/versioner.rb
 
-Versioner.configure do |config|
+ApiVersioner.configure do |config|
   # Current version of the application
   config.current_version = '1.2.3'
 
