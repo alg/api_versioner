@@ -14,7 +14,7 @@ RSpec.describe ApiVersioner do
       it { expect(config.client_version_header).to eq 'X-API-Client-Version' }
     end
 
-    context 'when overriden' do
+    context 'when overridden' do
       before do
         described_class.configure do |c|
           c.current_version = '1.2.3'

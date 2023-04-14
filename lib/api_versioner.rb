@@ -4,6 +4,7 @@ require 'api_versioner/version'
 
 module ApiVersioner
   autoload :Configuration, 'api_versioner/configuration'
+  autoload :SemanticVersion, 'api_versioner/semantic_version'
 
   class << self
     def configure

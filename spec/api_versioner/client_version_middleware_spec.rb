@@ -19,7 +19,7 @@ RSpec.describe ApiVersioner::ClientVersionMiddleware do
 
   let(:client_version_header) { 'X-VER' }
   let(:http_client_version_header) { 'HTTP_X_VER' }
-  let(:current_version) { Semantic::Version.new('1.2.3') }
+  let(:current_version) { ApiVersioner::SemanticVersion.new('1.2.3') }
   let(:policy) { instance_double(ApiVersioner::DefaultPolicy, call: nil) }
   let(:handler) { instance_double(ApiVersioner::DefaultHandler, call: :handler_response) }
 
@@ -72,14 +72,17 @@ RSpec.describe ApiVersioner::ClientVersionMiddleware do
   end
 
   context 'when checking versions' do
-    let(:client_version) { Semantic::Version.new('1.2.2') }
+    let(:client_version) { '1.2.2' }
 
-    before { env[http_client_version_header] = client_version.to_s }
+    before { env[http_client_version_header] = client_version }
 
     context 'when version is ok' do
       it 'returns the app result' do
         expect(middleware.(env)).to eq app_result
-        expect(policy).to have_received(:call).with(current_version, client_version)
+        expect(policy).to have_received(:call).with(
+          ApiVersioner::SemanticVersion.new('1.2.3'),
+          ApiVersioner::SemanticVersion.new('1.2.2')
+        )
       end
     end
 

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'semantic'
 require_relative 'default_policy'
 require_relative 'default_handler'
 
@@ -25,7 +24,7 @@ module ApiVersioner
 
     def current_version=(version)
       ver = version.to_s.strip
-      @current_version = ver.empty? ? nil : Semantic::Version.new(ver)
+      @current_version = ver.empty? ? nil : SemanticVersion.new(ver)
     end
 
     def server_version_header=(name)

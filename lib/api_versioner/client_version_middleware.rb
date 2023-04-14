@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require 'semantic'
-require 'api_versioner/unsupported_version'
-
 module ApiVersioner
+  autoload :UnsupportedVersion, 'api_versioner/unsupported_version'
+
   class ClientVersionMiddleware
     def initialize(app, config = nil)
       @app = app
@@ -32,15 +31,23 @@ module ApiVersioner
 
     def client_version(env)
       header_name = convert_to_rack_header(@config.client_version_header)
-      ver = env[header_name]
+      version_str = presence(env[header_name])
+      return unless version_str
 
-      ver && Semantic::Version.new(ver)
+      SemanticVersion.new(version_str)
     rescue ArgumentError
       nil
     end
 
+    def presence(str)
+      return unless str
+
+      str = str.strip
+      str.empty? ? nil : str
+    end
+
     def convert_to_rack_header(header)
-      "HTTP_#{header.strip.tr('-', '_').upcase}"
+      "HTTP_#{header.tr('-', '_').upcase}"
     end
   end
 end

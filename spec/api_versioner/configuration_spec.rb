@@ -13,7 +13,7 @@ RSpec.describe ApiVersioner::Configuration do
     it 'converts textual version into object' do
       config.current_version = '1.2.3'
 
-      expect(current_version).to be_a Semantic::Version
+      expect(current_version).to be_a ApiVersioner::SemanticVersion
       expect(current_version.to_s).to eq '1.2.3'
     end
   end
