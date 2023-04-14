@@ -8,11 +8,9 @@ module ApiVersioner
     end
 
     def call(env)
-      status, headers, response = @app.(env)
-
-      add_version_header(headers)
-
-      [status, headers, response]
+      response = @app.(env) # status, headers, bodies
+      add_version_header(response[1])
+      response
     end
 
     private
@@ -20,7 +18,7 @@ module ApiVersioner
     def add_version_header(headers)
       return unless adding_versions?
 
-      headers[@config.server_version_header] = @config.current_version.to_s
+      headers[@config.server_version_header] = @config.current_version
     end
 
     def adding_versions?
