@@ -1,25 +1,33 @@
 # frozen_string_literal: true
 
-require_relative 'default_policy'
-require_relative 'default_handler'
-
 module ApiVersioner
+  autoload :SemanticVersion, 'api_versioner/semantic_version'
+  autoload :DefaultHandler, 'api_versioner/default_handler'
+  autoload :DefaultPolicy, 'api_versioner/default_policy'
+
+  # :reek:InstanceVariableAssumption
   # :reek:TooManyInstanceVariables
   class Configuration
     DEFAULT_SERVER_VERSION_HEADER = 'X-API-Server-Version'
     DEFAULT_CLIENT_VERSION_HEADER = 'X-API-Client-Version'
-    DEFAULT_VERSION_POLICY = DefaultPolicy.new
-    DEFAULT_UNSUPPORTED_VERSION_HANDLER = DefaultHandler.new
 
-    attr_accessor :version_policy, :unsupported_version_handler
+    attr_writer :version_policy, :unsupported_version_handler
     attr_reader :current_version, :server_version_header, :client_version_header
 
     def initialize
       @current_version = nil
       @server_version_header = DEFAULT_SERVER_VERSION_HEADER
       @client_version_header = DEFAULT_CLIENT_VERSION_HEADER
-      @version_policy = DEFAULT_VERSION_POLICY
-      @unsupported_version_handler = DEFAULT_UNSUPPORTED_VERSION_HANDLER
+    end
+
+    def version_policy
+      @version_policy = DefaultPolicy.new unless instance_variable_defined?(:@version_policy)
+      @version_policy
+    end
+
+    def unsupported_version_handler
+      @unsupported_version_handler = DefaultHandler.new unless instance_variable_defined?(:@unsupported_version_handler)
+      @unsupported_version_handler
     end
 
     def current_version=(version)
