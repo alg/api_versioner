@@ -20,8 +20,8 @@ jobs:
           - ruby: "3.0"
           - ruby: "2.7"
           - ruby: "2.6"
-          - ruby: "jruby-9.4.0"
-          - ruby: "truffleruby-22.3.0"
+          - ruby: "jruby-9.4.2"
+          - ruby: "truffleruby-22.3.1"
 
     env:
       BUNDLE_GEMFILE: Gemfile

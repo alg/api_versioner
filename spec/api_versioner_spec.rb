@@ -2,7 +2,7 @@
 
 RSpec.describe ApiVersioner do
   it 'has a version number' do
-    expect(ApiVersioner::VERSION).not_to be nil
+    expect(ApiVersioner::VERSION).not_to be_nil
   end
 
   describe 'configuration' do

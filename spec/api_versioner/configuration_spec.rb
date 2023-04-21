@@ -68,7 +68,7 @@ RSpec.describe ApiVersioner::Configuration do
     it 'allows to set nil policy' do
       config.version_policy = nil
 
-      expect(policy).to eq nil
+      expect(policy).to be_nil
     end
   end
 
@@ -85,7 +85,7 @@ RSpec.describe ApiVersioner::Configuration do
 
     it 'allows to set nil handler' do
       config.unsupported_version_handler = nil
-      expect(handler).to eq nil
+      expect(handler).to be_nil
     end
   end
 end

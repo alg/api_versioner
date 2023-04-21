@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'rack'
 require 'api_versioner/client_version_middleware'
 require 'api_versioner/default_handler'
 require 'api_versioner/unsupported_version'

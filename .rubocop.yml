@@ -10,6 +10,9 @@ AllCops:
     - bin/*
     - vendor/**/*
 
+Gemspec/RequireMFA:
+  Enabled: false
+
 Layout/ArgumentAlignment:
   EnforcedStyle: with_fixed_indentation
 
@@ -59,7 +62,7 @@ RSpec/ScatteredSetup:
     - spec/integration/**/*
 
 RSpec/VariableName:
-  IgnoredPatterns:
+  AllowedPatterns:
     - Authorization
 
 Style/Documentation:
