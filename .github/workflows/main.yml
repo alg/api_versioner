@@ -1,0 +1,51 @@
+name: Ruby
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+    runs-on: ubuntu-22.04
+    name: Ruby ${{ matrix.ruby }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # https://github.com/ruby/ruby-builder/releases
+          - ruby: "head"
+          - ruby: "3.2"
+          - ruby: "3.1"
+          - ruby: "3.0"
+          - ruby: "2.7"
+          - ruby: "2.6"
+          - ruby: "jruby-9.4.0"
+          - ruby: "truffleruby-22.3.0"
+
+    env:
+      BUNDLE_GEMFILE: Gemfile
+
+    steps:
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v3
+
+      # https://github.com/ruby/setup-ruby
+      - name: Set up Ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      # Check code standards only for latest MRI. It takes a lot of time for jruby or truffleruby
+      - name: Check Code Standards
+        if: startsWith(matrix.ruby, '3.2')
+        run: bundle exec rubocop
+
+      # Check code smells
+      - name: Check Code Standards
+        if: startsWith(matrix.ruby, '3.2')
+        run: bundle exec reek
+
+      - name: Run Tests
+        run: SIMPLECOV=true bundle exec rspec
