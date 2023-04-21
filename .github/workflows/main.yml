@@ -48,4 +48,4 @@ jobs:
         run: bundle exec reek
 
       - name: Run Tests
-        run: SIMPLECOV=true bundle exec rspec
+        run: bundle exec rspec
