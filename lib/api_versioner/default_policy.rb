@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'api_versioner/unsupported_version'
-
 module ApiVersioner
+  autoload :UnsupportedVersion, 'api_versioner/unsupported_version'
+
   class DefaultPolicy
     class VersionTooLow < UnsupportedVersion
       def initialize(msg)

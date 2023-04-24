@@ -5,7 +5,7 @@ require 'api_versioner/configuration'
 RSpec.describe ApiVersioner::Configuration do
   subject(:config) { described_class.new }
 
-  describe '.current_version' do
+  describe '#current_version' do
     subject(:current_version) { config.current_version }
 
     it { is_expected.to be_nil }
@@ -13,12 +13,12 @@ RSpec.describe ApiVersioner::Configuration do
     it 'converts textual version into object' do
       config.current_version = '1.2.3'
 
-      expect(current_version).to be_a Semantic::Version
+      expect(current_version).to be_a ApiVersioner::SemanticVersion
       expect(current_version.to_s).to eq '1.2.3'
     end
   end
 
-  describe '.server_version_header' do
+  describe '#server_version_header' do
     subject(:name) { config.server_version_header }
 
     it { is_expected.to eq described_class::DEFAULT_SERVER_VERSION_HEADER }
@@ -36,7 +36,7 @@ RSpec.describe ApiVersioner::Configuration do
     end
   end
 
-  describe '.client_version_header' do
+  describe '#client_version_header' do
     subject(:name) { config.client_version_header }
 
     it { is_expected.to eq described_class::DEFAULT_CLIENT_VERSION_HEADER }
@@ -54,7 +54,7 @@ RSpec.describe ApiVersioner::Configuration do
     end
   end
 
-  describe '.version_policy' do
+  describe '#version_policy' do
     subject(:policy) { config.version_policy }
 
     it { is_expected.to be_a ApiVersioner::DefaultPolicy }
@@ -64,9 +64,15 @@ RSpec.describe ApiVersioner::Configuration do
 
       expect(policy).to eq :policy
     end
+
+    it 'allows to set nil policy' do
+      config.version_policy = nil
+
+      expect(policy).to be_nil
+    end
   end
 
-  describe '.unsupported_version_handler' do
+  describe '#unsupported_version_handler' do
     subject(:handler) { config.unsupported_version_handler }
 
     it { is_expected.to be_a ApiVersioner::DefaultHandler }
@@ -75,6 +81,11 @@ RSpec.describe ApiVersioner::Configuration do
       config.unsupported_version_handler = :handler
 
       expect(handler).to eq :handler
+    end
+
+    it 'allows to set nil handler' do
+      config.unsupported_version_handler = nil
+      expect(handler).to be_nil
     end
   end
 end

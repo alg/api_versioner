@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'rack'
 require 'api_versioner/server_version_middleware'
 
 RSpec.describe ApiVersioner::ServerVersionMiddleware do

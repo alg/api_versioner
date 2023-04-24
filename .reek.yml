@@ -15,3 +15,15 @@ detectors:
   UncommunicativeVariableName:
     accept:
       - e
+      - _
+      - id1
+      - id2
+
+  UncommunicativeParameterName:
+    accept:
+      - id1
+      - id2
+      - ids1
+      - ids2
+      - version1
+      - version2

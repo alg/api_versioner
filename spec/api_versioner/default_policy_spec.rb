@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'semantic'
 require 'api_versioner/default_policy'
 
 RSpec.describe ApiVersioner::DefaultPolicy do
@@ -9,7 +8,7 @@ RSpec.describe ApiVersioner::DefaultPolicy do
   let(:current_version) { version('2.3.4') }
 
   def version(str)
-    Semantic::Version.new(str)
+    ApiVersioner::SemanticVersion.new(str)
   end
 
   context 'when requested version is unspecified' do
